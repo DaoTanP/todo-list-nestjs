@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Task } from 'src/models/task.model';
-import { TaskRepository } from 'src/repositories/task.repository';
+import { Task } from '../dto/task.dto';
+import { TaskRepository } from '../repositories/task.repository';
 
 @Injectable()
 export class TaskService {
@@ -11,13 +11,7 @@ export class TaskService {
   }
 
   async getById(id: number) {
-    const task = await this.taskRepository.getById(id);
-
-    if (task === null) {
-      return { message: 'Task not found' };
-    }
-
-    return task;
+    return this.taskRepository.getById(id);
   }
 
   async createOne(task: Task) {
@@ -26,20 +20,11 @@ export class TaskService {
 
   async updateById(id: number, task: Task) {
     const result = await this.taskRepository.updateById(id, task);
-    if (result.affected === 0) {
-      return { message: 'Task not found' };
-    }
-
-    return { message: 'Task updated successfully' };
+    return result.affected !== 0;
   }
 
   async deleteById(id: number) {
     const result = await this.taskRepository.deleteById(id);
-
-    if (result.affected === 0) {
-      return { message: 'Task not found' };
-    }
-
-    return { message: 'Task deleted successfully' };
+    return result.affected !== 0;
   }
 }

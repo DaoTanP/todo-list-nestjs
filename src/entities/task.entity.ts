@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
-@Entity()
+@Entity('tasks')
 export class Task extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -8,7 +8,7 @@ export class Task extends BaseEntity {
   @Column('nvarchar')
   title: string;
 
-  @Column('nvarchar')
+  @Column('nvarchar', { nullable: true })
   description: string;
 
   @Column('timestamp', {
