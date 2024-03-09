@@ -3,10 +3,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TaskModule } from './modules/task.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import databaseConfig from './config/database';
+import { typeOrmConfigAsync } from './config/database.config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TaskModule, TypeOrmModule.forRoot(databaseConfig)],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync(typeOrmConfigAsync),
+    TaskModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

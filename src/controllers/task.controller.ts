@@ -16,6 +16,7 @@ import { TaskService } from '../services/task.service';
 import { Task } from 'src/dto/task.dto';
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { Message } from 'src/constants/message';
 
 @ApiTags('Task')
 @Controller('task')
@@ -33,7 +34,7 @@ export class TaskController {
   }
 
   @ApiOkResponse({ description: 'Get a task by id', type: Task })
-  @ApiNotFoundResponse({ description: 'Task not found' })
+  @ApiNotFoundResponse({ description: Message.NOT_FOUND })
   @Get(':id')
   async getById(@Param('id') id: number, @Res() res: Response) {
     const task = await this.taskService.getById(id);
@@ -41,7 +42,7 @@ export class TaskController {
     if (task === null) {
       return res
         .status(HttpStatus.NOT_FOUND)
-        .json({ message: 'Task not found' });
+        .json({ message: Message.NOT_FOUND });
     }
 
     return res.status(HttpStatus.OK).json(task);
@@ -56,7 +57,7 @@ export class TaskController {
   }
 
   @ApiOkResponse({ description: 'Task updated successfully' })
-  @ApiNotFoundResponse({ description: 'Task not found' })
+  @ApiNotFoundResponse({ description: Message.NOT_FOUND })
   @Patch(':id')
   async updateById(
     @Param('id') id: number,
@@ -68,7 +69,7 @@ export class TaskController {
     if (!result) {
       return res
         .status(HttpStatus.NOT_FOUND)
-        .json({ message: 'Task not found' });
+        .json({ message: Message.NOT_FOUND });
     }
 
     return res
@@ -77,7 +78,7 @@ export class TaskController {
   }
 
   @ApiOkResponse({ description: 'Task deleted successfully' })
-  @ApiNotFoundResponse({ description: 'Task not found' })
+  @ApiNotFoundResponse({ description: Message.NOT_FOUND })
   @Delete(':id')
   async deleteById(@Param('id') id: number, @Res() res: Response) {
     const result = await this.taskService.deleteById(id);
@@ -85,7 +86,7 @@ export class TaskController {
     if (!result) {
       return res
         .status(HttpStatus.NOT_FOUND)
-        .json({ message: 'Task not found' });
+        .json({ message: Message.NOT_FOUND });
     }
 
     return res

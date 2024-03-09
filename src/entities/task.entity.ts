@@ -8,7 +8,7 @@ export class Task extends BaseEntity {
   @Column('nvarchar')
   title: string;
 
-  @Column('nvarchar', { nullable: true })
+  @Column('nvarchar')
   description: string;
 
   @Column('timestamp', {
